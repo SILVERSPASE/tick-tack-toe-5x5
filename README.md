@@ -1,3 +1,3 @@
 # tick-tack-toe-5x5
 Demo:
-https://silverspase.github.io/tic-tak-toe-classic-AngularJS/
+https://silverspase.github.io/tick-tack-toe-5x5/
