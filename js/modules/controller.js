@@ -8,235 +8,239 @@ $scope.yellowScore = 0;
 $scope.greenTurn = true;  
 $scope.winScreen = false;
 $scope.winText = '';
+$scope.showResetButton = false;
 
 
-$scope.createField = function(){
-	for (var i = 0; i < $scope.height; i++){
+$scope.createField = function() {
+	for (var i = 0; i < $scope.height; i++) {
 		$scope.field[i] = {};
-		for (var j = 0; j < $scope.width; j++){
+		for (var j = 0; j < $scope.width; j++) {
 			$scope.field[i][j] = '';
 		}
 	}
 }
+
+// $scope.createField = function(width, height) {
+// 	for (var i = 0; i < $scope.height; i++) {
+// 		$scope.field[i] = {};
+// 		for (var j = 0; j < $scope.width; j++) {
+// 			$scope.field[i][j] = '';
+// 		}
+// 	}
+// }
 
 $scope.createField();
 
 //x: columnKey);
 //y: rowKey);
 
-$scope.newGame = function(){
+$scope.newGame = function() {
 	$scope.field = {};
 	$scope.greenScore = 0;
 	$scope.yellowScore = 0;
 	$scope.greenTurn = true;  
 	$scope.winScreen = false;
 	$scope.createField();
-
 };
 
 $scope.cellClick = function(rowKey, columnKey) {
 	rowKey = parseInt(rowKey);
 	columnKey = parseInt(columnKey);
-	if ($scope.field[columnKey][rowKey] == '' && !$scope.winScreen) {
+	if (!$scope.winScreen && $scope.field[columnKey][rowKey] == '') {
+		$scope.showResetButton = true;
 		$scope.field[columnKey][rowKey] = ($scope.greenTurn ? 'green' : 'yellow');
 		$scope.greenTurn = !$scope.greenTurn;
-		}
 	
-// win condition
-//horizontal win green
-	for (var ox = 1; ox <=5; ox++){
-		if($scope.field[columnKey][rowKey + ox] == 'green'){
-			$scope.greenScore++;
-			if ($scope.greenScore == 4){
-				$scope.winText = 'Green Player WON!';
-				$scope.winScreen = true;
-			}
-		} else {
-			for (oy = 1; oy <=5; oy++){
-				if($scope.field[columnKey][rowKey - oy] == 'green'){
+	// win condition
+	//horizontal win green
+		for (var ox = 1; ox <=5; ox++) {
+			if ($scope.field[columnKey][rowKey + ox] == 'green') {
 				$scope.greenScore++;
-					if ($scope.greenScore == 4){
-						$scope.winText = 'Green Player WON!';
-						$scope.winScreen = true;
+				if ($scope.greenScore == 4) {
+					$scope.winText = 'Green Player WON!';
+					$scope.winScreen = true;
+				}
+			} else {
+				for (oy = 1; oy <=5; oy++) {
+					if ($scope.field[columnKey][rowKey - oy] == 'green') {
+					$scope.greenScore++;
+						if ($scope.greenScore == 4) {
+							$scope.winText = 'Green Player WON!';
+							$scope.winScreen = true;
+						}
+					} else {
+						$scope.greenScore = 0;
+						break;
 					}
-				} else {
-					$scope.greenScore = 0;
-					break;
 				}
 			}
-		break;
 		}
-	}
-//horizontal win yellow
-	for (var ox = 1; ox <=5; ox++){
-		if($scope.field[columnKey][rowKey + ox] == 'yellow'){
-			$scope.yellowScore++;
-			if ($scope.yellowScore == 4){
-				$scope.winText = 'Yellow Player WON!';
-				$scope.winScreen = true;
-			}
-		} else {
-			for (oy = 1; oy <=5; oy++){
-				if($scope.field[columnKey][rowKey - oy] == 'yellow'){
+	//horizontal win yellow
+		for (var ox = 1; ox <=5; ox++) {
+			if ($scope.field[columnKey][rowKey + ox] == 'yellow') {
 				$scope.yellowScore++;
-					if ($scope.yellowScore == 4){
-						$scope.winText = 'Yellow Player WON!';
-						$scope.winScreen = true;
+				if ($scope.yellowScore == 4) {
+					$scope.winText = 'Yellow Player WON!';
+					$scope.winScreen = true;
+				}
+			} else {
+				for (oy = 1; oy <=5; oy++) {
+					if ($scope.field[columnKey][rowKey - oy] == 'yellow') {
+					$scope.yellowScore++;
+						if ($scope.yellowScore == 4) {
+							$scope.winText = 'Yellow Player WON!';
+							$scope.winScreen = true;
+						}
+					} else {
+						$scope.yellowScore = 0;
+						break;
 					}
-				} else {
-					$scope.yellowScore = 0;
-					break;
 				}
 			}
-		break;
 		}
-	}
 
-//vertikal win green
-	for (var ox = 1; ox <=5; ox++){
-		if($scope.field[columnKey + ox] && $scope.field[columnKey + ox][rowKey] == 'green'){
-			$scope.greenScore++;
-			if ($scope.greenScore == 4){
-				$scope.winText = 'Green Player WON!';
-				$scope.winScreen = true;
-			}
-		} else {
-			for (oy = 1; oy <=5; oy++){
-				if($scope.field[columnKey - oy] && $scope.field[columnKey - oy][rowKey] == 'green'){
-					if ($scope.greenScore == 4){
-						$scope.winText = 'Green Player WON!';
-						$scope.winScreen = true;
-					}
-				} else {
-					$scope.greenScore = 0;
-					break;
-				}
-			}
-		break;
-		}
-	}
-
-//vertikal win yellow
-	for (var ox = 1; ox <=5; ox++){
-		if($scope.field[columnKey + ox] && $scope.field[columnKey + ox][rowKey] == 'yellow'){
-			if ($scope.yellowScore == 4){
-				$scope.winText = 'Yellow Player WON!';
-				$scope.winScreen = true;
-			}
-		} else {
-			for (oy = 1; oy <=5; oy++){
-				if($scope.field[columnKey - oy] && $scope.field[columnKey - oy][rowKey] == 'yellow'){
-				$scope.yellowScore++;
-					if ($scope.yellowScore == 4){
-						$scope.winText = 'Yellow Player WON!';
-						$scope.winScreen = true;
-					}
-				} else {
-					$scope.yellowScore = 0;
-					break;
-				}
-			}
-		break;
-		}
-	}
-
-// diagonal left to right win green
-	for (var ox = 1; ox <=5; ox++){
-		if($scope.field[columnKey + ox] && $scope.field[columnKey + ox][rowKey + ox] == 'green'){
-			$scope.greenScore++;
-			if ($scope.greenScore == 4){
-				$scope.winText = 'Green Player WON!';
-				$scope.winScreen = true;
-			}
-		} else {
-			for (oy = 1; oy <=5; oy++){
-				if($scope.field[columnKey - oy] && $scope.field[columnKey - oy][rowKey - oy] == 'green'){
+	//vertikal win green
+		for (var ox = 1; ox <=5; ox++) {
+			if ($scope.field[columnKey + ox] && $scope.field[columnKey + ox][rowKey] == 'green') {
 				$scope.greenScore++;
-					if ($scope.greenScore == 4){
-						$scope.winText = 'Green Player WON!';
-						$scope.winScreen = true;
+				if ($scope.greenScore == 4) {
+					$scope.winText = 'Green Player WON!';
+					$scope.winScreen = true;
+				}
+			} else {
+				for (oy = 1; oy <=5; oy++) {
+					if ($scope.field[columnKey - oy] && $scope.field[columnKey - oy][rowKey] == 'green') {
+						$scope.greenScore++;
+						if ($scope.greenScore == 4) {
+							$scope.winText = 'Green Player WON!';
+							$scope.winScreen = true;
+						}
+					} else {
+						$scope.greenScore = 0;
+						break;
 					}
-				} else {
-					$scope.greenScore = 0;
-					break;
 				}
 			}
-		break;
 		}
-	}
 
-// diagonal right to left win green
-	for (var ox = 1; ox <=5; ox++){
-		if($scope.field[columnKey - ox] && $scope.field[columnKey - ox][rowKey + ox] == 'green'){
-			$scope.greenScore++;
-			if ($scope.greenScore == 4){
-				$scope.winText = 'Green Player WON!';
-				$scope.winScreen = true;
+	//vertikal win yellow
+		for (var ox = 1; ox <=5; ox++) {
+			if ($scope.field[columnKey + ox] && $scope.field[columnKey + ox][rowKey] == 'yellow') {
+				$scope.yellowScore++;
+				if ($scope.yellowScore == 4) {
+					$scope.winText = 'Yellow Player WON!';
+					$scope.winScreen = true;
+				}
+			} else {
+				for (oy = 1; oy <=5; oy++) {
+					if ($scope.field[columnKey - oy] && $scope.field[columnKey - oy][rowKey] == 'yellow') {
+					$scope.yellowScore++;
+						if ($scope.yellowScore == 4) {
+							$scope.winText = 'Yellow Player WON!';
+							$scope.winScreen = true;
+						}
+					} else {
+						$scope.yellowScore = 0;
+						break;
+					}
+				}
 			}
-		} else {
-			for (oy = 1; oy <=5; oy++){
-				if($scope.field[columnKey + oy] && $scope.field[columnKey + oy][rowKey - oy] == 'green'){
+		}
+
+	// diagonal left to right win green
+		for (var ox = 1; ox <=5; ox++) {
+			if ($scope.field[columnKey + ox] && $scope.field[columnKey + ox][rowKey + ox] == 'green') {
 				$scope.greenScore++;
-					if ($scope.greenScore == 4){
-						$scope.winText = 'Green Player WON!';
-						$scope.winScreen = true;
+				if ($scope.greenScore == 4) {
+					$scope.winText = 'Green Player WON!';
+					$scope.winScreen = true;
+				}
+			} else {
+				for (oy = 1; oy <=5; oy++) {
+					if ($scope.field[columnKey - oy] && $scope.field[columnKey - oy][rowKey - oy] == 'green') {
+					$scope.greenScore++;
+						if ($scope.greenScore == 4) {
+							$scope.winText = 'Green Player WON!';
+							$scope.winScreen = true;
+						}
+					} else {
+						$scope.greenScore = 0;
+						break;
 					}
-				} else {
-					$scope.greenScore = 0;
-					break;
 				}
 			}
-		break;
 		}
-	}
 
-// diagonal left to right win yellow
-	for (var ox = 1; ox <=5; ox++){
-		if($scope.field[columnKey + ox] && $scope.field[columnKey + ox][rowKey + ox] == 'yellow'){
-			$scope.yellowScore++;
-			if ($scope.yellowScore == 4){
-				$scope.winText = 'Yellow Player WON!';
-				$scope.winScreen = true;
-			}
-		} else {
-			for (oy = 1; oy <=5; oy++){
-				if($scope.field[columnKey - oy] && $scope.field[columnKey - oy][rowKey - oy] == 'yellow'){
-				$scope.yellowScore++;
-					if ($scope.yellowScore == 4){
-						$scope.winText = 'Yellow Player WON!';
-						$scope.winScreen = true;
+	// diagonal right to left win green
+		for (var ox = 1; ox <=5; ox++) {
+			if ($scope.field[columnKey - ox] && $scope.field[columnKey - ox][rowKey + ox] == 'green') {
+				$scope.greenScore++;
+				if ($scope.greenScore == 4) {
+					$scope.winText = 'Green Player WON!';
+					$scope.winScreen = true;
+				}
+			} else {
+				for (oy = 1; oy <=5; oy++) {
+					if ($scope.field[columnKey + oy] && $scope.field[columnKey + oy][rowKey - oy] == 'green') {
+					$scope.greenScore++;
+						if ($scope.greenScore == 4) {
+							$scope.winText = 'Green Player WON!';
+							$scope.winScreen = true;
+						}
+					} else {
+						$scope.greenScore = 0;
+						break;
 					}
-				} else {
-					$scope.yellowScore = 0;
-					break;
 				}
 			}
-		break;
 		}
-	}
 
-// diagonal right to left win yellow
-	for (var ox = 1; ox <=5; ox++){
-		if($scope.field[columnKey - ox] && $scope.field[columnKey - ox][rowKey + ox] == 'yellow'){
-			$scope.yellowScore++;
-			if ($scope.yellowScore == 4){
-				$scope.winText = 'Yellow Player WON!';
-				$scope.winScreen = true;
-			}
-		} else {
-			for (oy = 1; oy <=5; oy++){
-				if($scope.field[columnKey + oy] && $scope.field[columnKey + oy][rowKey - oy] == 'yellow'){
+	// diagonal left to right win yellow
+		for (var ox = 1; ox <=5; ox++) {
+			if ($scope.field[columnKey + ox] && $scope.field[columnKey + ox][rowKey + ox] == 'yellow') {
 				$scope.yellowScore++;
-					if ($scope.yellowScore == 4){
-						$scope.winText = 'Yellow Player WON!';
-						$scope.winScreen = true;
+				if ($scope.yellowScore == 4) {
+					$scope.winText = 'Yellow Player WON!';
+					$scope.winScreen = true;
+				}
+			} else {
+				for (oy = 1; oy <=5; oy++) {
+					if ($scope.field[columnKey - oy] && $scope.field[columnKey - oy][rowKey - oy] == 'yellow') {
+					$scope.yellowScore++;
+						if ($scope.yellowScore == 4) {
+							$scope.winText = 'Yellow Player WON!';
+							$scope.winScreen = true;
+						}
+					} else {
+						$scope.yellowScore = 0;
+						break;
 					}
-				} else {
-					$scope.yellowScore = 0;
-					break;
 				}
 			}
-		break;
+		}
+
+	// diagonal right to left win yellow
+		for (var ox = 1; ox <=5; ox++) {
+			if ($scope.field[columnKey - ox] && $scope.field[columnKey - ox][rowKey + ox] == 'yellow') {
+				$scope.yellowScore++;
+				if ($scope.yellowScore == 4) {
+					$scope.winText = 'Yellow Player WON!';
+					$scope.winScreen = true;
+				}
+			} else {
+				for (oy = 1; oy <=5; oy++) {
+					if ($scope.field[columnKey + oy] && $scope.field[columnKey + oy][rowKey - oy] == 'yellow') {
+					$scope.yellowScore++;
+						if ($scope.yellowScore == 4) {
+							$scope.winText = 'Yellow Player WON!';
+							$scope.winScreen = true;
+						}
+					} else {
+						$scope.yellowScore = 0;
+						break;
+					}
+				}
+			}
 		}
 	}
 } 

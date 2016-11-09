@@ -11,9 +11,19 @@
 <body>
 <div data-ng-app = 'app' data-ng-controller = 'myCtrl'>
 	<div class="container">
-		<div class="row tac">
+				<div class="row tac">
 			<div class="winScreen">
-				<button data-ng-hide = 'winScreen' class = 'button btn-primary animated fadeIn' data-ng-click = 'newGame()'>Restart Game</button>
+				<div ng-show = 'showResetButton' class= 'showResetButton'>
+<!-- 					<div class="col-md-6 input_field" data-ng-hide = 'winScreen'>
+						<span>Width</span><input type="text" ng-model = 'width'>
+						<div class="clearfix"></div>
+						<span>Height</span>
+						<input type="text" ng-model = 'height'>
+					</div> -->
+					<div data-ng-hide = 'winScreen'>
+						<button  class = 'button btn-primary animated fadeIn' data-ng-click = 'newGame()'>Restart Game</button>
+					</div>
+				</div>
 				<span data-ng-show = 'winScreen' class = 'animated fadeIn'>{{winText}}</span>
 				<button data-ng-show = 'winScreen' data-ng-click = 'newGame()' 
 				class = 'button btn-primary animated fadeIn'>New Game</button>
@@ -23,11 +33,6 @@
 					<div data-ng-repeat = '(rowKey, rowValue) in field[columnKey]' class='cell {{rowValue}}'  data-ng-click = 'cellClick(rowKey, columnKey)'>{{columnValue}}</div>
 				</div>
 			</div>
-<!-- 			<div class="winScreen" data-ng-show = 'winScreen'>
-				<div class = "animated fadeIn">{{winText}}</div>
-				<div class="button btn-primary animated fadeIn" data-ng-click = 'newGame()'>New Game</div>
-				********************
-			</div> -->
 		</div>
 	</div>
 </div>
